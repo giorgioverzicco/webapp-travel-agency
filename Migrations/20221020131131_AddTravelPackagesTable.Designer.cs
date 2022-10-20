@@ -12,7 +12,7 @@ using webapp_travel_agency.Data;
 namespace webapp_travel_agency.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221020095946_AddTravelPackagesTable")]
+    [Migration("20221020131131_AddTravelPackagesTable")]
     partial class AddTravelPackagesTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,9 @@ namespace webapp_travel_agency.Migrations
 
                     b.Property<decimal>("PricePerKid")
                         .HasColumnType("money");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
                     b.Property<string>("Region")
                         .IsRequired()

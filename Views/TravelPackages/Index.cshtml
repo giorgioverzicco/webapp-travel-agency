@@ -1,0 +1,81 @@
+@model IEnumerable<TravelPackage>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <h2>Travel Packages List</h2>
+    </div>
+    
+    <div class="col-md-6 text-end">
+        <a asp-controller="TravelPackages" asp-action="Create" type="button" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> &nbsp; Create new one
+        </a>
+    </div>
+    
+    <div class="col-12">
+        <table class="table">
+          <thead>
+          <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Dates</th>
+              <th scope="col">City</th>
+              <th scope="col">Price Per Adult</th>
+              <th scope="col">Price Per Kid</th>
+              <th scope="col">Amount Of Adults</th>
+              <th scope="col">Amount Of Kids</th>
+              <th scope="col">Total</th>
+              <th scope="col">Actions</th>
+          </tr>
+          </thead>
+          
+          <tbody>
+          @foreach (var item in Model)
+          {
+              <tr>
+                  <td>@item.Name</td>
+                  <td>
+                      @Html.DisplayFor(x => item.StartDate) - @Html.DisplayFor(x => item.EndDate)
+                  </td>
+                  <td>@item.City</td>
+                  <td>@Html.DisplayFor(x => item.PricePerAdult)</td>
+                  <td>@Html.DisplayFor(x => item.PricePerKid)</td>
+                  <td>@item.AmountOfAdults</td>
+                  <td>@item.AmountOfKids</td>
+                  <td>@Html.DisplayFor(x => item.Total)</td>
+                  <td role="group">
+                      <a asp-controller="TravelPackages" asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-warning">
+                          <i class="fa-solid fa-pen-to-square"></i>
+                      </a>
+                      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal_@item.Id">
+                          <i class="fa-solid fa-trash"></i>
+                      </button>
+                  </td>
+              </tr>
+              
+              <div class="modal fade" id="deleteModal_@item.Id" tabindex="-1" aria-labelledby="deleteModal_@(item.Id)_Label" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="deleteModal_@(item.Id)_Label">Confirm deletion</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              Are you sure you want to delete <span class="text-info fw-bold">@item.Name</span>?
+                          </div>
+                          <div class="modal-footer">
+                              <form method="POST" asp-controller="TravelPackages" asp-action="Delete" asp-route-id="@item.Id">
+                                  <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                                      Cancel
+                                  </button>
+                                  <button type="submit" class="btn btn-danger">
+                                      Delete
+                                  </button>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          }
+          </tbody>
+        </table>
+    </div>
+</div>

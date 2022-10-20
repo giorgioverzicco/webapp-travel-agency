@@ -54,6 +54,9 @@ namespace webapp_travel_agency.Migrations
                     b.Property<decimal>("PricePerKid")
                         .HasColumnType("money");
 
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
                     b.Property<string>("Region")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

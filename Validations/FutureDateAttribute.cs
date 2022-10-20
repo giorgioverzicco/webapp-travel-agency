@@ -9,7 +9,7 @@ public class FutureDateAttribute : ValidationAttribute
     {
         var date = Convert.ToDateTime(value);
 
-        if (date <= DateTime.Now)
+        if (date <= DateTime.Today)
         {
             return new ValidationResult(ErrorMessage);
         }

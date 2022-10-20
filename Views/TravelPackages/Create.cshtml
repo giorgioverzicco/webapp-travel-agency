@@ -1,0 +1,83 @@
+@using System.Globalization
+@model TravelPackage
+
+<form method="POST" asp-controller="TravelPackages" asp-action="Create" class="has-validation">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" type="text" class="form-control">
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Rating" class="form-label"></label>
+            <input asp-for="Rating" type="number" value="0" class="form-control">
+            <span asp-validation-for="Rating"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="StartDate" class="form-label"></label>
+            <input asp-for="StartDate" type="date" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" value="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" class="form-control">
+            <span asp-validation-for="StartDate"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="EndDate" class="form-label"></label>
+            <input asp-for="EndDate" type="date" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" value="@DateTime.Today.AddDays(8).ToString("yyyy-MM-dd")" class="form-control">
+            <span asp-validation-for="EndDate"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="PricePerAdult" class="form-label"></label>
+            <div class="input-group">
+                <input asp-for="PricePerAdult" type="number" step=".01" value="0" class="form-control">
+                <span class="input-group-text">@NumberFormatInfo.CurrentInfo.CurrencySymbol</span>
+            </div>
+            <span asp-validation-for="PricePerAdult"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="PricePerKid" class="form-label"></label>
+            <div class="input-group">
+                <input asp-for="PricePerKid" type="number" step=".01" value="0" class="form-control">
+                <span class="input-group-text">@NumberFormatInfo.CurrentInfo.CurrencySymbol</span>
+            </div>
+            <span asp-validation-for="PricePerKid"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="AmountOfAdults" class="form-label"></label>
+            <input asp-for="AmountOfAdults" type="number" value="0" class="form-control">
+            <span asp-validation-for="AmountOfAdults"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="AmountOfKids" class="form-label"></label>
+            <input asp-for="AmountOfKids" type="number" value="0" class="form-control">
+            <span asp-validation-for="AmountOfKids"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="City" class="form-label"></label>
+            <input asp-for="City" type="text" class="form-control">
+            <span asp-validation-for="City"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Region" class="form-label"></label>
+            <input asp-for="Region" type="text" class="form-control">
+            <span asp-validation-for="Region"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="State" class="form-label"></label>
+            <input asp-for="State" type="text" class="form-control">
+            <span asp-validation-for="State"></span>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">
+                Create
+            </button>
+            <a asp-controller="TravelPackages" asp-action="Index" type="button" class="btn btn-light">
+                Cancel
+            </a>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
