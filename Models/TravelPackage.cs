@@ -21,14 +21,14 @@ public class TravelPackage
     [DataType(DataType.Date)]
     [FutureDate]
     [Display(Name = "Start Date")]
-    [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = "{0:MMM dd}", ApplyFormatInEditMode = true)]
     public DateTime StartDate { get; set; } = default!;
     
     [Required]
     [DataType(DataType.Date)]
     [FutureDate]
     [Display(Name = "End Date")]
-    [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = "{0:MMM dd, yyyy}", ApplyFormatInEditMode = true)]
     public DateTime EndDate { get; set; } = default!;
     
     [Required]

@@ -46,6 +46,10 @@
                   <td>@item.AmountOfKids</td>
                   <td>@Html.DisplayFor(x => item.Total)</td>
                   <td role="group">
+                      <a asp-controller="TravelPackages" asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-info">
+                          <i class="fa-solid fa-eye"></i>
+                      </a>
+                      
                       <a asp-controller="TravelPackages" asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-warning">
                           <i class="fa-solid fa-pen-to-square"></i>
                       </a>

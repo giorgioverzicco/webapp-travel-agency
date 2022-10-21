@@ -22,6 +22,24 @@ public class TravelPackagesController : Controller
         var travelPackages = await _unitOfWork.TravelPackage.GetAllAsync();
         return View(travelPackages);
     }
+    
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id is null or 0)
+        {
+            return BadRequest();
+        }
+        
+        var travelPackage = 
+            await _unitOfWork.TravelPackage.GetFirstOrDefaultAsync(x => x.Id == id);
+
+        if (travelPackage is null)
+        {
+            return NotFound();
+        }
+        
+        return View(travelPackage);
+    }
 
     public IActionResult Create()
     {
