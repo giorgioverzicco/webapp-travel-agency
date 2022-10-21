@@ -13,4 +13,5 @@ public class ApplicationDbContext : DbContext
     }
 
     public virtual DbSet<TravelPackage> TravelPackages { get; set; } = default!;
+    public virtual DbSet<Message> Messages { get; set; } = default!;
 }

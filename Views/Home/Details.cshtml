@@ -2,7 +2,39 @@
     ViewData["Title"] = "Details";
 }
 
-<div id="dataContainer" class="row g-3">
+<div class="">
+    <div id="dataContainer" class="row g-3 mb-3">
+    </div>
+
+    <form id="messageForm" class="row g-3 d-none">
+        <div class="col-12">
+            <h4>Ask for infos</h4>
+        </div>
+        
+        <div class="col-md-6">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" id="firstName" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" id="lastName" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <label for="phoneNumber" class="form-label">Phone Number</label>
+            <input type="text" id="phoneNumber" class="form-control">
+        </div>
+        <div class="col-12">
+            <label for="content" class="form-label">Message</label>
+            <textarea class="form-control" id="content" rows="5"></textarea>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Send</button>
+        </div>
+    </form>
 </div>
 
 @section Scripts
@@ -13,8 +45,48 @@
     const id = location.pathname.split('/')[3];
     const baseUrl = window.location.origin;
     
+    let messageForm = document.getElementById("messageForm");
+    
     axios.get(`${baseUrl}/api/travelpackages/${id}`)
-        .then(response => createDetailsPage(response.data));
+        .then(response => { 
+            createDetailsPage(response.data);
+            messageForm.classList.remove("d-none");
+        });
+    
+    messageForm.onsubmit = (e) => {
+        e.preventDefault();
+        sendMessage();
+    }
+    
+    function sendMessage() {
+        let firstName = document.getElementById("firstName").value;
+        let lastName = document.getElementById("lastName").value;
+        let email = document.getElementById("email").value;
+        let phoneNumber = document.getElementById("phoneNumber").value;
+        let content = document.getElementById("content").value;
+        
+        axios.post(`${baseUrl}/api/messages`, { 
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+            content
+        })
+        .then(_ => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Your message has been sent!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+        .catch(_ => {
+            Swal.fire({
+                icon: 'error',
+                title: 'You have to insert the correct data!',
+            });
+        });    
+    }
     
     function createDetailsPage(item) {
         let container = document.getElementById("dataContainer");

@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using webapp_travel_agency.Models;
 using webapp_travel_agency.Repositories;
 
 namespace webapp_travel_agency.Controllers.Api
