@@ -65,6 +65,11 @@ public class TravelPackage
     
     [Required]
     public string City { get; set; } = default!;
+    
+    [ValidateNever]
+    [Display(Name = "Image")]
+    [DataType(DataType.ImageUrl)]
+    public string? ImageUrl { get; set; }
 
     [ValidateNever]
     [NotMapped] 
