@@ -2,39 +2,35 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div id="travelPacksContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    @* @for (var i = 0; i < 20; i++) *@
-    @* { *@
-    @*     <div class="col"> *@
-    @*         <div class="card"> *@
-    @*             <img src="https://placehold.jp/800x600.png?text=NoImage" class="card-img-top" alt="" height="200" style="object-fit: cover"> *@
-    @*             <div class="card-body"> *@
-    @*                 <div> *@
-    @*                     @for (var j = 1; j <= 5; j++) *@
-    @*                     { *@
-    @*                         <i class="fa-solid fa-star"></i> *@
-    @*                     } *@
-    @*                 </div> *@
-    @*                 <div class="card-title"> *@
-    @*                     <div class="fs-5 fw-bold">Grand Memories Cayo Largo</div> *@
-    @*                     <div class="fs-6">Cuba - Cayo Largo</div> *@
-    @*                 </div> *@
-    @*                 <div class="card-text"> *@
-    @*                     <div><i class="fa-solid fa-calendar-days"></i> &nbsp; 08 nov - 14 nov 2022 (6 nights)</div> *@
-    @*                 </div> *@
-    @*             </div> *@
-    @*             <div class="card-footer text-end"> *@
-    @*                 <div style="font-size: 0.75rem">200eur / 6 nights, 2 adults</div> *@
-    @*                 <div style="font-size: 1rem"> *@
-    @*                     <span class="fw-bold" style="font-size: 1.375rem">100eur</span> / person *@
-    @*                 </div> *@
-    @*                 <button type="button" class="btn btn-lg btn-primary w-100 rounded-3 fw-bold text-uppercase mt-1"> *@
-    @*                     Continue *@
-    @*                 </button> *@
-    @*             </div> *@
-    @*         </div> *@
-    @*     </div> *@
-    @* } *@
+<div class="">
+    <div class="row g-3 mb-3">
+        <div class="col-lg">
+            <label for="nameQuery" class="form-label">Name</label>
+            <input type="text" class="form-control" id="nameQuery" placeholder="Hotel Bianchi">
+        </div>
+        <div class="col-lg">
+            <label for="priceQuery" class="form-label">Price</label>
+            <input type="number" class="form-control" id="priceQuery" min="0" placeholder="0">
+        </div>
+        <div class="col-lg">
+            <label for="cityQuery" class="form-label">City</label>
+            <input type="text" class="form-control" id="cityQuery" placeholder="Los Angeles">
+        </div>
+        <div class="col-lg">
+            <label for="stateQuery" class="form-label">State</label>
+            <input type="text" class="form-control" id="stateQuery" placeholder="USA">
+        </div>
+        <div class="col-lg">
+            <label for="ratingQuery" class="form-label">Rating</label>
+            <input type="number" class="form-control" id="ratingQuery" min="1" max="5" placeholder="4">
+        </div>
+        <div class="col-lg align-self-end">
+            <button type="button" onclick="filterTravelPacks()" class="btn btn-info rounded-3 w-100">Search</button>
+        </div>
+    </div>
+    
+    <div id="travelPacksContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    </div>
 </div>
 
 @section Scripts
@@ -46,15 +42,38 @@
     
     axios.get('api/travelpackages')
         .then(response => createTravelPackageCards(response.data));
+    
+    const submitQueryBtn = document.getElementById("submitQuery");
+    function filterTravelPacks() {
+        let nameQuery = document.getElementById("nameQuery").value;
+        let priceQuery = document.getElementById("priceQuery").value;
+        let cityQuery = document.getElementById("cityQuery").value;
+        let stateQuery = document.getElementById("stateQuery").value;
+        let ratingQuery = document.getElementById("ratingQuery").value;
+        
+        let params = {
+            name: nameQuery,
+            price: priceQuery,
+            city: cityQuery,
+            state: stateQuery,
+            rating: ratingQuery
+        };
+        
+        axios.get('api/travelpackages', { params: params })
+                .then(response => {
+                    document.getElementById("travelPacksContainer").innerHTML = "";
+                    createTravelPackageCards(response.data);
+                });
+    }
 
     function createTravelPackageCards(items) {
            let container = document.getElementById("travelPacksContainer");
            
            const formatter = new Intl.NumberFormat('en-US', {
-             style: 'currency',
-             currency: 'USD',
-             minimumFractionDigits: 0,
-             maximumFractionDigits: 2,
+                 style: 'currency',
+                 currency: 'USD',
+                 minimumFractionDigits: 0,
+                 maximumFractionDigits: 2,
            });
            
            items.forEach(item => {
@@ -63,7 +82,7 @@
                         .toLocaleDateString("en-US", { month: 'short', day: 'numeric' });
                 let endDate = 
                     new Date(item.endDate)
-                    .toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
+                        .toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
                 
                 container.innerHTML += `
                     <div class="col">
