@@ -28,5 +28,25 @@ namespace webapp_travel_agency.Controllers.Api
                 await _unitOfWork.TravelPackage.GetByFilter(name, rating, city, state, price);
             return Ok(travelPackages);
         }
+
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<IActionResult> GetById(int? id)
+        {
+            if (id is null or 0)
+            {
+                return BadRequest();
+            }
+
+            var travelPackage = 
+                await _unitOfWork.TravelPackage.GetFirstOrDefaultAsync(x => x.Id == id);
+
+            if (travelPackage is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(travelPackage);
+        }
     }
 }

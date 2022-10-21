@@ -38,8 +38,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
 
     <script>
-    let travelPacks = null;
-    
     axios.get('api/travelpackages')
         .then(response => createTravelPackageCards(response.data));
     
@@ -104,9 +102,9 @@
                                 <div style="font-size: 1rem">
                                     <span class="fw-bold" style="font-size: 1.375rem">${formatter.format(item.pricePerAdult)}</span> / person
                                 </div>
-                                <button type="button" class="btn btn-lg btn-primary w-100 rounded-3 fw-bold text-uppercase mt-1">
+                                <a href="home/details/${item.id}" type="button" class="btn btn-lg btn-primary w-100 rounded-3 fw-bold text-uppercase mt-1">
                                     Continue
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>

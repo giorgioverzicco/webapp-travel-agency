@@ -18,6 +18,16 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult Details(int? id)
+    {
+        if (id is null or 0)
+        {
+            return BadRequest();
+        }
+        
+        return View();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
