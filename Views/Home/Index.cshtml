@@ -2,22 +2,102 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="travelPacksContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    @* @for (var i = 0; i < 20; i++) *@
+    @* { *@
+    @*     <div class="col"> *@
+    @*         <div class="card"> *@
+    @*             <img src="https://placehold.jp/800x600.png?text=NoImage" class="card-img-top" alt="" height="200" style="object-fit: cover"> *@
+    @*             <div class="card-body"> *@
+    @*                 <div> *@
+    @*                     @for (var j = 1; j <= 5; j++) *@
+    @*                     { *@
+    @*                         <i class="fa-solid fa-star"></i> *@
+    @*                     } *@
+    @*                 </div> *@
+    @*                 <div class="card-title"> *@
+    @*                     <div class="fs-5 fw-bold">Grand Memories Cayo Largo</div> *@
+    @*                     <div class="fs-6">Cuba - Cayo Largo</div> *@
+    @*                 </div> *@
+    @*                 <div class="card-text"> *@
+    @*                     <div><i class="fa-solid fa-calendar-days"></i> &nbsp; 08 nov - 14 nov 2022 (6 nights)</div> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @*             <div class="card-footer text-end"> *@
+    @*                 <div style="font-size: 0.75rem">200eur / 6 nights, 2 adults</div> *@
+    @*                 <div style="font-size: 1rem"> *@
+    @*                     <span class="fw-bold" style="font-size: 1.375rem">100eur</span> / person *@
+    @*                 </div> *@
+    @*                 <button type="button" class="btn btn-lg btn-primary w-100 rounded-3 fw-bold text-uppercase mt-1"> *@
+    @*                     Continue *@
+    @*                 </button> *@
+    @*             </div> *@
+    @*         </div> *@
+    @*     </div> *@
+    @* } *@
 </div>
 
 @section Scripts
 {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
+
     <script>
     let travelPacks = null;
     
     axios.get('api/travelpackages')
-        .then(response => travelPacks = response.data)
-        .error(error => console.error(error.response.data));
-    
-    function createTravelPackageCards(data) {
+        .then(response => createTravelPackageCards(response.data));
+
+    function createTravelPackageCards(items) {
+           let container = document.getElementById("travelPacksContainer");
            
+           const formatter = new Intl.NumberFormat('en-US', {
+             style: 'currency',
+             currency: 'USD',
+             minimumFractionDigits: 0,
+             maximumFractionDigits: 2,
+           });
+           
+           items.forEach(item => {
+                let startDate = 
+                    new Date(item.startDate)
+                        .toLocaleDateString("en-US", { month: 'short', day: 'numeric' });
+                let endDate = 
+                    new Date(item.endDate)
+                    .toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
+                
+                container.innerHTML += `
+                    <div class="col">
+                        <div class="card">
+                            <img src="${item.imageUrl}" class="card-img-top" alt="" height="200" style="object-fit: cover">
+                            <div class="card-body">
+                                <div id="stars_${item.id}">
+                                </div>
+                                <div class="card-title">
+                                    <div class="fs-5 fw-bold">${item.name}</div>
+                                    <div class="fs-6">${item.city} - ${item.region}</div>
+                                </div>
+                                <div class="card-text">
+                                    <div><i class="fa-solid fa-calendar-days"></i> &nbsp; ${startDate} - ${endDate} (${item.amountOfNights} nights)</div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-end">
+                                <div style="font-size: 0.75rem">${formatter.format(item.pricePerAdult * item.amountOfAdults)} / ${item.amountOfNights} nights, ${item.amountOfAdults} adults</div>
+                                <div style="font-size: 1rem">
+                                    <span class="fw-bold" style="font-size: 1.375rem">${formatter.format(item.pricePerAdult)}</span> / person
+                                </div>
+                                <button type="button" class="btn btn-lg btn-primary w-100 rounded-3 fw-bold text-uppercase mt-1">
+                                    Continue
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                let starsContainer = document.getElementById(`stars_${item.id}`);
+                for (let i = 0; i < item.rating; i++) {
+                    starsContainer.innerHTML += `<i class="fa-solid fa-star"></i>`;
+                }
+           });
     }
     </script>
 }

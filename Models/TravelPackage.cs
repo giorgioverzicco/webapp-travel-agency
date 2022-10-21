@@ -73,6 +73,10 @@ public class TravelPackage
 
     [ValidateNever]
     [NotMapped] 
+    public int AmountOfNights => (EndDate - StartDate).Days;
+
+    [ValidateNever]
+    [NotMapped] 
     [DataType(DataType.Currency)]
     [DisplayFormat(DataFormatString = "{0:C}")]
     public decimal Total => PricePerAdult * AmountOfAdults + PricePerKid * AmountOfKids;
